@@ -16,27 +16,27 @@ counter = 1
 
 deleteDuplicate = helper.DeleteDuplicates()
 
-files_Leagues = []
+files_leagues = []
 for url in urls:
     crawlGroups = crawler.CrawledGroups(url)
-    files_Leagues.append(crawlGroups.fetch(counter))
+    files_leagues.append(crawlGroups.fetch(counter))
     counter = counter + 1
 
 counter = 1
-files_Clubs = []
-for file in files_Leagues:
+files_clubs = []
+for file in files_leagues:
     crawlTeams = crawler.CrawledTeams(file)
-    files_Clubs.append(crawlTeams.fetch(counter))
+    files_clubs.append(crawlTeams.fetch(counter))
     counter = counter + 1
 
 counter = 1
-files_Clubsites = []
-for file in files_Clubs:
+files_clubsites = []
+for file in files_clubs:
     crawlClubs = crawler.CrawledClubs(file)
-    files_Clubsites.append(crawlClubs.fetch(counter))
+    files_clubsites.append(crawlClubs.fetch(counter))
     counter = counter + 1
 
-for file in files_Clubsites:
+for file in files_clubsites:
     deleteDuplicate.delete(file)
 
 t_end = perf_counter()
