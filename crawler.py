@@ -1,0 +1,49 @@
+import crawler
+import helper
+from time import perf_counter
+
+Terminal = helper.Terminal()
+Terminal.print("------------------------------start crawler-----------------------------")
+t_start = perf_counter()
+
+urlOne = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B1+S+2020"
+urlTwo = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B2+S+2020"
+urlThree = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B3+S+2020"
+urlFour = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B4+S+2020"
+
+urls = [urlOne, urlTwo, urlThree, urlFour]
+counter = 1
+
+deleteDuplicate = helper.DeleteDuplicates()
+
+files_Leagues = []
+for url in urls:
+    crawlGroups = crawler.CrawledGroups(url)
+    files_Leagues.append(crawlGroups.fetch(counter))
+    counter = counter + 1
+
+counter = 1
+files_Clubs = []
+for file in files_Leagues:
+    crawlTeams = crawler.CrawledTeams(file)
+    files_Clubs.append(crawlTeams.fetch(counter))
+    counter = counter + 1
+
+counter = 1
+files_Clubsites = []
+for file in files_Clubs:
+    crawlClubs = crawler.CrawledClubs(file)
+    files_Clubsites.append(crawlClubs.fetch(counter))
+    counter = counter + 1
+
+for file in files_Clubsites:
+    deleteDuplicate.delete(file)
+
+t_end = perf_counter()
+d = t_end - t_start
+if d >= 60:
+    d = f"{(round(d / 60, 2))}m"
+else:
+    d = f"{round(d, 2)}s"
+
+Terminal.print(f"------------------------------end crawler: {d}------------------------------")
