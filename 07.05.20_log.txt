@@ -1,0 +1,86 @@
+07.05.20 - 19:48:37 -> ------------------------------start crawler-----------------------------
+07.05.20 - 19:48:37 -> initialized 'DeleteDuplicates'
+07.05.20 - 19:48:37 -> initialized CrawledGroups
+07.05.20 - 19:48:38 -> File 01_Gruppen_Bezirk_1.csv does already exist
+07.05.20 - 19:48:38 -> initialized CrawledGroups
+07.05.20 - 19:48:38 -> File 01_Gruppen_Bezirk_2.csv does already exist
+07.05.20 - 19:48:38 -> initialized CrawledGroups
+07.05.20 - 19:48:38 -> File 01_Gruppen_Bezirk_3.csv does already exist
+07.05.20 - 19:48:38 -> initialized CrawledGroups
+07.05.20 - 19:48:39 -> File 01_Gruppen_Bezirk_4.csv does already exist
+07.05.20 - 19:48:39 -> initialized 'CrawledTeams'
+07.05.20 - 19:48:39 -> File 02_Mannschaften_Bezirk_1.csv does already exist
+07.05.20 - 19:48:39 -> initialized 'CrawledTeams'
+07.05.20 - 19:48:39 -> File 02_Mannschaften_Bezirk_2.csv does already exist
+07.05.20 - 19:48:39 -> initialized 'CrawledTeams'
+07.05.20 - 19:48:39 -> File 02_Mannschaften_Bezirk_3.csv does already exist
+07.05.20 - 19:48:39 -> initialized 'CrawledTeams'
+07.05.20 - 19:48:39 -> File 02_Mannschaften_Bezirk_4.csv does already exist
+07.05.20 - 19:48:39 -> initialized 'CrawledClubs'
+07.05.20 - 19:48:39 -> File 03_Clubs_Bezirk_1.csv does already exist
+07.05.20 - 19:48:39 -> initialized 'CrawledClubs'
+07.05.20 - 19:48:39 -> File 03_Clubs_Bezirk_2.csv does already exist
+07.05.20 - 19:48:39 -> initialized 'CrawledClubs'
+07.05.20 - 19:48:39 -> File 03_Clubs_Bezirk_3.csv does already exist
+07.05.20 - 19:48:39 -> initialized 'CrawledClubs'
+07.05.20 - 19:48:39 -> File 03_Clubs_Bezirk_4.csv does already exist
+07.05.20 - 19:48:39 -> 03_Clubs_Bezirk_1.csv will be checked for duplicates
+07.05.20 - 19:48:39 -> old list: 143
+07.05.20 - 19:48:39 -> new list: 143
+07.05.20 - 19:48:39 -> no duplicates found in 03_Clubs_Bezirk_1.csv
+07.05.20 - 19:48:39 -> 03_Clubs_Bezirk_2.csv will be checked for duplicates
+07.05.20 - 19:48:39 -> old list: 114
+07.05.20 - 19:48:39 -> new list: 114
+07.05.20 - 19:48:39 -> no duplicates found in 03_Clubs_Bezirk_2.csv
+07.05.20 - 19:48:39 -> 03_Clubs_Bezirk_3.csv will be checked for duplicates
+07.05.20 - 19:48:39 -> old list: 122
+07.05.20 - 19:48:39 -> new list: 122
+07.05.20 - 19:48:39 -> no duplicates found in 03_Clubs_Bezirk_3.csv
+07.05.20 - 19:48:39 -> 03_Clubs_Bezirk_4.csv will be checked for duplicates
+07.05.20 - 19:48:39 -> old list: 86
+07.05.20 - 19:48:39 -> new list: 86
+07.05.20 - 19:48:39 -> no duplicates found in 03_Clubs_Bezirk_4.csv
+07.05.20 - 19:48:39 -> ------------------------------end crawler: 1.45s------------------------------
+07.05.20 - 19:52:03 -> ------------------------------start crawler-----------------------------
+07.05.20 - 19:52:03 -> initialized 'DeleteDuplicates'
+07.05.20 - 19:52:03 -> initialized CrawledGroups
+07.05.20 - 19:52:04 -> File 01_Gruppen_Bezirk_1.csv does already exist
+07.05.20 - 19:52:04 -> initialized CrawledGroups
+07.05.20 - 19:52:04 -> File 01_Gruppen_Bezirk_2.csv does already exist
+07.05.20 - 19:52:04 -> initialized CrawledGroups
+07.05.20 - 19:52:04 -> File 01_Gruppen_Bezirk_3.csv does already exist
+07.05.20 - 19:52:04 -> initialized CrawledGroups
+07.05.20 - 19:52:05 -> File 01_Gruppen_Bezirk_4.csv does already exist
+07.05.20 - 19:52:05 -> initialized 'CrawledTeams'
+07.05.20 - 19:52:05 -> File 02_Mannschaften_Bezirk_1.csv does already exist
+07.05.20 - 19:52:05 -> initialized 'CrawledTeams'
+07.05.20 - 19:52:05 -> File 02_Mannschaften_Bezirk_2.csv does already exist
+07.05.20 - 19:52:05 -> initialized 'CrawledTeams'
+07.05.20 - 19:52:05 -> File 02_Mannschaften_Bezirk_3.csv does already exist
+07.05.20 - 19:52:05 -> initialized 'CrawledTeams'
+07.05.20 - 19:52:05 -> File 02_Mannschaften_Bezirk_4.csv does already exist
+07.05.20 - 19:52:05 -> initialized 'CrawledClubs'
+07.05.20 - 19:52:05 -> File 03_Clubs_Bezirk_1.csv does already exist
+07.05.20 - 19:52:05 -> initialized 'CrawledClubs'
+07.05.20 - 19:52:05 -> File 03_Clubs_Bezirk_2.csv does already exist
+07.05.20 - 19:52:05 -> initialized 'CrawledClubs'
+07.05.20 - 19:52:05 -> File 03_Clubs_Bezirk_3.csv does already exist
+07.05.20 - 19:52:05 -> initialized 'CrawledClubs'
+07.05.20 - 19:52:05 -> File 03_Clubs_Bezirk_4.csv does already exist
+07.05.20 - 19:52:05 -> 03_Clubs_Bezirk_1.csv will be checked for duplicates
+07.05.20 - 19:52:05 -> old list: 143
+07.05.20 - 19:52:05 -> new list: 143
+07.05.20 - 19:52:05 -> no duplicates found in 03_Clubs_Bezirk_1.csv
+07.05.20 - 19:52:05 -> 03_Clubs_Bezirk_2.csv will be checked for duplicates
+07.05.20 - 19:52:05 -> old list: 114
+07.05.20 - 19:52:05 -> new list: 114
+07.05.20 - 19:52:05 -> no duplicates found in 03_Clubs_Bezirk_2.csv
+07.05.20 - 19:52:05 -> 03_Clubs_Bezirk_3.csv will be checked for duplicates
+07.05.20 - 19:52:05 -> old list: 122
+07.05.20 - 19:52:05 -> new list: 122
+07.05.20 - 19:52:05 -> no duplicates found in 03_Clubs_Bezirk_3.csv
+07.05.20 - 19:52:05 -> 03_Clubs_Bezirk_4.csv will be checked for duplicates
+07.05.20 - 19:52:05 -> old list: 86
+07.05.20 - 19:52:05 -> new list: 86
+07.05.20 - 19:52:05 -> no duplicates found in 03_Clubs_Bezirk_4.csv
+07.05.20 - 19:52:05 -> ------------------------------end crawler: 1.31s------------------------------
