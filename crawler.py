@@ -1,6 +1,7 @@
 import crawler
 import helper
 import time
+from pathlib import Path
 
 Terminal = helper.Terminal()
 Terminal.print("------------------------------start crawler-----------------------------")
@@ -40,10 +41,16 @@ for file in files_clubsites:
     deleteDuplicate.delete(file)
 
 counter = 1
-for file in files_clubsites:
-    crawlMails = crawler.CrawledMails(file)
-    crawlMails.fetch(counter)
-    counter = counter + 1
+filename_mails = "./Excelfiles/04_Mails.csv"
+checkFile = Path(filename_mails)
+
+if checkFile.is_file():
+    Terminal.print(f"File {filename_mails} does already exist")
+else:
+    for file in files_clubsites:
+        crawlMails = crawler.CrawledMails(file)
+        crawlMails.fetch(counter, filename_mails)
+        counter = counter + 1
 
 t_end = time.perf_counter()
 d = t_end - t_start
