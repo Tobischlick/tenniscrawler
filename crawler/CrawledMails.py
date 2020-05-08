@@ -12,8 +12,8 @@ class CrawledMails:
         Terminal.print("initialized CrawledMails")
 
     def fetch(self, counter):
-        filename_jugend = f"04_Jugendleiter_Bezirk_{counter}.csv"
-        filename_sport = f"04_SportlicheLeiter_Bezirk_{counter}.csv"
+        filename_jugend = f"./Excelfiles/04_Jugendleiter_Bezirk_{counter}.csv"
+        filename_sport = f"./Excelfiles/04_SportlicheLeiter_Bezirk_{counter}.csv"
         filename_mannschaft = f"04_Mannschaftsführer_Bezirk{counter}.csv"
         with open(self.filepath, newline="") as csvfile_read:
             Terminal.print("read file: " + self.filepath)

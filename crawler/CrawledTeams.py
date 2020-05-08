@@ -14,7 +14,7 @@ class CrawledTeams:
         Terminal.print("initialized 'CrawledTeams'")
 
     def fetch(self, counter):
-        filename = f"02_Mannschaften_Bezirk_{counter}.csv"
+        filename = f"./Excelfiles/02_Mannschaften_Bezirk_{counter}.csv"
         checkFile = Path(filename)
         if checkFile.is_file():
             Terminal.print("File " + filename + " does already exist")

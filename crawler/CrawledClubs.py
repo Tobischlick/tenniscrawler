@@ -16,7 +16,7 @@ class CrawledClubs:
 
     def fetch(self, counter):
         c = 1
-        filename = f"03_Clubs_Bezirk_{counter}.csv"
+        filename = f"./Excelfiles/03_Clubs_Bezirk_{counter}.csv"
         checkFile = Path(filename)
         if checkFile.is_file():
             Terminal.print("File " + filename + " does already exist")
@@ -37,4 +37,5 @@ class CrawledClubs:
                         writer.writerow([urlsite])
                         Terminal.print("Club Nr. " + str(c) + " added to " + filename)
                         c = c + 1
+            Terminal.print(filename + " returned")
         return filename

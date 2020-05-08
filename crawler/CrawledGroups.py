@@ -19,7 +19,7 @@ class CrawledGroups:
         doc = BeautifulSoup(r.text, "html.parser")
         table = doc.select_one(".result-set")
         links = table.find_all("a")
-        filename = f"01_Gruppen_Bezirk_{counter}.csv"
+        filename = f"./Excelfiles/01_Gruppen_Bezirk_{counter}.csv"
         checkFile = Path(filename)
         if checkFile.is_file():
             Terminal.print("File " + filename + " does already exist")
