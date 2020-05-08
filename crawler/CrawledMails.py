@@ -23,5 +23,4 @@ class CrawledMails:
                 r = requests.get(urlCLubsite)
                 doc = BeautifulSoup(r.text, "html.parser")
                 table = doc.select(".result-set")[2]
-                print(table)
                 break
