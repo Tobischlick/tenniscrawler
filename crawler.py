@@ -45,11 +45,10 @@ for file in files_clubsites:
     crawlMails.fetch(counter)
     break
 
-
-
 t_end = perf_counter()
 d = t_end - t_start
 if d >= 60:
+    #ToDo: fix time
     d = f"{(round(d / 60, 2))}m"
 else:
     d = f"{round(d, 2)}s"

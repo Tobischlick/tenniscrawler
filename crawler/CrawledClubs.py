@@ -33,9 +33,10 @@ class CrawledClubs:
                         doc = BeautifulSoup(r.text, "html.parser")
                         table = doc.select_one(".result-set")
                         links = table.find_all("a")
+                        club = links[0].text.strip()
                         urlsite = urljoin(club_url, links[0].attrs["href"])
                         writer.writerow([urlsite])
-                        Terminal.print("Club Nr. " + str(c) + " added to " + filename)
+                        Terminal.print(club + " added to " + filename)
                         c = c + 1
             Terminal.print(filename + " returned")
         return filename
