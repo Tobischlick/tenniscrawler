@@ -12,6 +12,6 @@ class Terminal:
 
     def log(self, new_message):
         date = datetime.now().strftime("%d.%m.%y")
-        logfile = f"{date}_log.txt"
+        logfile = f"./Logfiles/{date}_log.txt"
         with open(logfile, "a") as log:
             log.write(new_message + "\n")
