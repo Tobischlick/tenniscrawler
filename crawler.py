@@ -1,10 +1,10 @@
 import crawler
 import helper
-from time import perf_counter
+import time
 
 Terminal = helper.Terminal()
 Terminal.print("------------------------------start crawler-----------------------------")
-t_start = perf_counter()
+t_start = time.perf_counter()
 
 urlOne = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B1+S+2020"
 urlTwo = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B2+S+2020"
@@ -45,11 +45,11 @@ for file in files_clubsites:
     crawlMails.fetch(counter)
     break
 
-t_end = perf_counter()
+t_end = time.perf_counter()
 d = t_end - t_start
 if d >= 60:
-    #ToDo: fix time
-    d = f"{(round(d / 60, 2))}m"
+    d = time.strftime("%M:%S", time.gmtime(d))
+    d = f"{d}m"
 else:
     d = f"{round(d, 2)}s"
 
