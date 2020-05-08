@@ -43,7 +43,7 @@ counter = 1
 for file in files_clubsites:
     crawlMails = crawler.CrawledMails(file)
     crawlMails.fetch(counter)
-    break
+    counter = counter + 1
 
 t_end = time.perf_counter()
 d = t_end - t_start

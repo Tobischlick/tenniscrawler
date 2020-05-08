@@ -30,6 +30,6 @@ class CrawledGroups:
                 for link in links:
                     url_link = urljoin(self.url, link.attrs["href"])
                     writer.writerow([url_link])
-                    Terminal.print(link.text + " added to " + filename)
-            Terminal.print(filename + " returned")
+                    Terminal.print(f"{link.text} added to {filename}")
+            Terminal.print(f"{filename} returned")
         return filename

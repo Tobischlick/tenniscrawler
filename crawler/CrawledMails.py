@@ -2,6 +2,7 @@ import requests
 import helper
 import csv
 from bs4 import BeautifulSoup
+from pathlib import Path
 
 Terminal = helper.Terminal()
 
@@ -12,15 +13,46 @@ class CrawledMails:
         Terminal.print("initialized CrawledMails")
 
     def fetch(self, counter):
-        filename_jugend = f"./Excelfiles/04_Jugendleiter_Bezirk_{counter}.csv"
-        filename_sport = f"./Excelfiles/04_SportlicheLeiter_Bezirk_{counter}.csv"
-        filename_mannschaft = f"04_Mannschaftsführer_Bezirk{counter}.csv"
-        with open(self.filepath, newline="") as csvfile_read:
-            Terminal.print("read file: " + self.filepath)
-            reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
-            for row in reader:
-                urlCLubsite = ' '.join(row)
-                r = requests.get(urlCLubsite)
-                doc = BeautifulSoup(r.text, "html.parser")
-                table = doc.select(".result-set")[2]
-                break
+        filename_mails = f"./Excelfiles/04_Mails_Bezirk_{counter}.csv"
+        checkFile = Path(filename_mails)
+        if checkFile.is_file():
+            Terminal.print(f"File {filename_mails} does already exist")
+        else:
+            with open(filename_mails, "w", newline="") as csvfile:
+                Terminal.print(filename_mails + " created")
+                with open(self.filepath, newline="") as csvfile_read:
+                    Terminal.print("read file: " + self.filepath)
+                    reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
+                    for row in reader:
+                        urlCLubsite = ' '.join(row)
+                        r = requests.get(urlCLubsite)
+                        doc = BeautifulSoup(r.text, "html.parser")
+                        finder = doc.find_all("td")
+                        for i in range(0, len(finder)):
+                            mail_type = finder[i].text
+                            if mail_type == "Sportwart/in" or mail_type == "Jugendwart/in" or mail_type == "Mannschaftsfuehrer/in":
+                                mail_string = finder[i + 3].text
+                                if mail_string != "-":
+                                    mail = self.encode_mail(mail_string)
+                                    writer = csv.writer(csvfile, delimiter=';', quotechar='|')
+                                    writer.writerow([mail_type, mail])
+                                    Terminal.print(f"Mail '{mail}' added to {filename_mails}")
+            Terminal.print(f"{filename_mails} returned")
+
+    def encode_mail(self, mail):
+        mail = mail.strip()
+        mail = mail.replace("encodeEmail(", "")
+        mail = mail.replace(")", "")
+        mail = mail.replace("'", "")
+        mail_splitted = mail.split(",")
+        topLevelDomain = mail_splitted[0].strip()
+        m1 = mail_splitted[1].strip()
+        domain = mail_splitted[2].strip()
+        m2 = mail_splitted[3].strip()
+        delimiter1 = "@"
+        delimiter2 = "."
+        if m2 != "":
+            concatString = m1 + delimiter2 + m2 + delimiter1 + domain + delimiter2 + topLevelDomain
+        else:
+            concatString = m1 + delimiter1 + domain + delimiter2 + topLevelDomain
+        return concatString.strip()
