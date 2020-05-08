@@ -10,7 +10,7 @@ class DeleteDuplicates:
 
     def delete(self, filename):
         Terminal = helper.Terminal()
-        Terminal.print(filename + " will be checked for duplicates")
+        Terminal.print(f"{filename} will be checked for duplicates")
         list_old = []
         with open(filename, "r", newline="") as csvfile_read:
             reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
@@ -27,4 +27,4 @@ class DeleteDuplicates:
                     writer.writerow([item])
                 Terminal.print(str(diff) + " items deleted duplicates out of: " + filename)
         else:
-            Terminal.print("no duplicates found in " + filename)
+            Terminal.print(f"no duplicates found in {filename}")

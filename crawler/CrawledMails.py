@@ -19,10 +19,12 @@ class CrawledMails:
             Terminal.print(f"File {filename_mails} does already exist")
         else:
             with open(filename_mails, "w", newline="") as csvfile:
-                Terminal.print(filename_mails + " created")
+                Terminal.print(f"{filename_mails} created")
                 with open(self.filepath, newline="") as csvfile_read:
-                    Terminal.print("read file: " + self.filepath)
+                    Terminal.print(f"read file: {self.filepath}")
                     reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
+                    writer = csv.writer(csvfile, delimiter=';', quotechar='|')
+                    writer.writerow(['Position', 'E-Mail'])
                     for row in reader:
                         urlCLubsite = ' '.join(row)
                         r = requests.get(urlCLubsite)
@@ -34,7 +36,6 @@ class CrawledMails:
                                 mail_string = finder[i + 3].text
                                 if mail_string != "-":
                                     mail = self.encode_mail(mail_string)
-                                    writer = csv.writer(csvfile, delimiter=';', quotechar='|')
                                     writer.writerow([mail_type, mail])
                                     Terminal.print(f"Mail '{mail}' added to {filename_mails}")
             Terminal.print(f"{filename_mails} returned")

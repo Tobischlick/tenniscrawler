@@ -22,10 +22,10 @@ class CrawledGroups:
         filename = f"./Excelfiles/01_Gruppen_Bezirk_{counter}.csv"
         checkFile = Path(filename)
         if checkFile.is_file():
-            Terminal.print("File " + filename + " does already exist")
+            Terminal.print(f"File {filename} does already exist")
         else:
             with open(filename, "w", newline="") as csvfile:
-                Terminal.print(filename + " created")
+                Terminal.print(f"{filename} created")
                 writer = csv.writer(csvfile, delimiter=';', quotechar='|')
                 for link in links:
                     url_link = urljoin(self.url, link.attrs["href"])

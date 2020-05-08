@@ -19,12 +19,12 @@ class CrawledClubs:
         filename = f"./Excelfiles/03_Clubs_Bezirk_{counter}.csv"
         checkFile = Path(filename)
         if checkFile.is_file():
-            Terminal.print("File " + filename + " does already exist")
+            Terminal.print(f"File {filename} does already exist")
         else:
             with open(filename, "w", newline="") as csvfile:
-                Terminal.print(filename + " created")
+                Terminal.print(f"{filename} created")
                 with open(self.filepath, newline="") as csvfile_read:
-                    Terminal.print("read file: " + self.filepath)
+                    Terminal.print(f"read file: {self.filepath}")
                     reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
                     writer = csv.writer(csvfile, delimiter=';', quotechar='|')
                     for row in reader:
@@ -36,7 +36,7 @@ class CrawledClubs:
                         club = links[0].text.strip()
                         urlsite = urljoin(club_url, links[0].attrs["href"])
                         writer.writerow([urlsite])
-                        Terminal.print(club + " added to " + filename)
+                        Terminal.print(f"{club} added to {filename}")
                         c = c + 1
-            Terminal.print(filename + " returned")
+            Terminal.print(f"{filename} returned")
         return filename

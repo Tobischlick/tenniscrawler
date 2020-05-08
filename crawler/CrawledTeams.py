@@ -17,12 +17,12 @@ class CrawledTeams:
         filename = f"./Excelfiles/02_Mannschaften_Bezirk_{counter}.csv"
         checkFile = Path(filename)
         if checkFile.is_file():
-            Terminal.print("File " + filename + " does already exist")
+            Terminal.print(f"File {filename} does already exist")
         else:
             with open(filename, "w", newline="") as csvfile:
-                Terminal.print(filename + " created")
+                Terminal.print(f"{filename} created")
                 with open(self.filepath, newline="") as csvfile_read:
-                    Terminal.print("read file: " + self.filepath)
+                    Terminal.print(f"read file: {self.filepath}")
                     reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
                     for row in reader:
                         urlLeague = ' '.join(row)
@@ -34,6 +34,6 @@ class CrawledTeams:
                         for link in links:
                             url_link = urljoin(urlLeague, link.attrs["href"])
                             writer.writerow([url_link])
-                            Terminal.print(link.text + " added to " + filename)
-            Terminal.print(filename + " returned")
+                            Terminal.print(f"{link.text} added to {filename}")
+            Terminal.print(f"{filename} returned")
         return filename
