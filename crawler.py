@@ -39,6 +39,14 @@ for file in files_clubs:
 for file in files_clubsites:
     deleteDuplicate.delete(file)
 
+counter = 1
+for file in files_clubsites:
+    crawlMails = crawler.CrawledMails(file)
+    crawlMails.fetch(counter)
+    break
+
+
+
 t_end = perf_counter()
 d = t_end - t_start
 if d >= 60:
