@@ -27,7 +27,7 @@ class CrawledMails:
                     finder = doc.find_all("td")
                     for i in range(0, len(finder)):
                         mail_type = finder[i].text
-                        if mail_type == "Sportwart/in" or mail_type == "Jugendwart/in" or mail_type == "Mannschaftsfuehrer/in" or mail_type == "1. Vorsitzende/r" or mail_type == "2. Vorsitzende/r	":
+                        if mail_type == "Sportwart/in" or mail_type == "Jugendwart/in" or mail_type == "Mannschaftsfuehrer/in" or mail_type == "1. Vorsitzende/r" or mail_type == "2. Vorsitzende/r	" or mail_type == "Schatzmeister/in	":
                             mail_string = finder[i + 3].text
                             if mail_string != "-":
                                 mail = self.encode_mail(mail_string)
