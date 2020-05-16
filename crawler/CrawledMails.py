@@ -2,7 +2,6 @@ import requests
 import helper
 import csv
 from bs4 import BeautifulSoup
-from pathlib import Path
 
 Terminal = helper.Terminal()
 
