@@ -4,7 +4,7 @@ Terminal = helper.Terminal()
 
 class Stats:
     def __init__(self):
-        pass
+        self.filepath = f"05_Statistik"
 
     def write_Groups(self, bezirk, counter):
         Terminal.print(f"{bezirk} - {counter}")
