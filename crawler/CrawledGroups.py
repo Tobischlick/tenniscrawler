@@ -6,7 +6,7 @@ from pathlib import Path
 import helper
 
 Terminal = helper.Terminal()
-
+Stats = helper.Stats()
 
 class CrawledGroups:
 
@@ -15,6 +15,7 @@ class CrawledGroups:
         Terminal.print("initialized CrawledGroups")
 
     def fetch(self, counter):
+        c = 1
         r = requests.get(self.url)
         doc = BeautifulSoup(r.text, "html.parser")
         table = doc.select_one(".result-set")
@@ -31,5 +32,7 @@ class CrawledGroups:
                     url_link = urljoin(self.url, link.attrs["href"])
                     writer.writerow([url_link])
                     Terminal.print(f"{link.text} added to {filename}")
+                    c = c + 1
             Terminal.print(f"{filename} returned")
+        Stats.write_Groups(counter, c - 1)
         return filename
