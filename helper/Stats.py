@@ -2,6 +2,7 @@ import helper
 
 Terminal = helper.Terminal()
 
+
 class Stats:
     def __init__(self):
         self.filepath = f"05_Statistik"
