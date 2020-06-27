@@ -2,10 +2,12 @@ import crawler
 import helper
 import time
 from pathlib import Path
+from win10toast import ToastNotifier
 
 Terminal = helper.Terminal()
 Terminal.print("------------------------------start crawler-----------------------------")
 t_start = time.perf_counter()
+toaster = ToastNotifier()
 
 urlOne = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B1+S+2020"
 urlTwo = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B2+S+2020"
@@ -61,3 +63,4 @@ else:
     d = f"{round(d, 2)}s"
 
 Terminal.print(f"------------------------------end crawler: {d}------------------------------")
+toaster.show_toast("Tennis Crawler", "end crawler")
