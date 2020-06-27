@@ -6,7 +6,7 @@ from pathlib import Path
 import helper
 
 Terminal = helper.Terminal()
-Stats = helper.Stats()
+
 
 class CrawledGroups:
 
@@ -34,5 +34,4 @@ class CrawledGroups:
                     Terminal.print(f"{link.text} added to {filename}")
                     c = c + 1
             Terminal.print(f"{filename} returned")
-        Stats.write_Groups(counter, c - 1)
         return filename
