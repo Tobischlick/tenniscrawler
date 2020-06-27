@@ -63,4 +63,4 @@ else:
     d = f"{round(d, 2)}s"
 
 Terminal.print(f"------------------------------end crawler: {d}------------------------------")
-toaster.show_toast("Tennis Crawler", "end crawler")
+toaster.show_toast("Tennis Crawler", f"crawled mails in {d}")
