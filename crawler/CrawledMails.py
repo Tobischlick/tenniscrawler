@@ -31,7 +31,7 @@ class CrawledMails:
                             if mail_string != "-":
                                 mail = self.encode_mail(mail_string)
                                 writer.writerow([mail_type, mail, counter])
-                                Terminal.print(f"Mail '{mail}' of {mail_type} from Bezirk {counter} added to {filename_mails}")
+                                Terminal.print(f"Mail '{mail}' ({mail_type}) from Bezirk {counter} added to {filename_mails}")
         Terminal.print(f"{filename_mails} returned")
 
     def encode_mail(self, mail):
