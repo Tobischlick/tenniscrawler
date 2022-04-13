@@ -9,10 +9,10 @@ Terminal.print("------------------------------start crawler---------------------
 t_start = time.perf_counter()
 toaster = ToastNotifier()
 
-urlOne = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B1+S+2020"
-urlTwo = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B2+S+2020"
-urlThree = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B3+S+2020"
-urlFour = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B4+S+2020"
+urlOne = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B1+S+2022"
+urlTwo = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B2+S+2022"
+urlThree = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B3+S+2022"
+urlFour = "https://baden.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/leaguePage?championship=B4+S+2022"
 
 urls = [urlOne, urlTwo, urlThree, urlFour]
 counter = 1
