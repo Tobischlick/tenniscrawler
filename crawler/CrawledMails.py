@@ -27,8 +27,8 @@ class CrawledMails:
                     for i in range(0, len(finder)):
                         mail_type = finder[i].text
                         if mail_type == "Sportwart/in" or mail_type == "Jugendwart/in" or mail_type == "Mannschaftsfuehrer/in" or mail_type == "1. Vorsitzende/r" or mail_type == "2. Vorsitzende/r":
-                            mail_string = finder[i + 3].text
-                            if mail_string != "-":
+                            mail_string = finder[i + 3].string
+                            if mail_string != "-" and mail_string != "":
                                 mail = self.encode_mail(mail_string)
                                 writer.writerow([mail_type, mail, counter])
                                 Terminal.print(
