@@ -1,5 +1,5 @@
 import requests
-import helper
+from src import helper
 import csv
 from bs4 import BeautifulSoup
 

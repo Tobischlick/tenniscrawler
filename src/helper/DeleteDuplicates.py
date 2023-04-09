@@ -1,5 +1,5 @@
 import csv
-import helper
+from src import helper
 
 
 class DeleteDuplicates:
