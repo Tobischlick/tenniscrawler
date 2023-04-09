@@ -1,2 +1,4 @@
 Logfiles/
 Excelfiles/
+
+*.pyc
