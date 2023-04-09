@@ -2,7 +2,8 @@
 
 ## How to config
 
-Update the urlOne, urlTwo, urlThree, urlFour variables in [crawler.py](crawler.py)
+Set the wanted URL's in [config.ini](.config/config.ini), each URL has to be a single line. 
+Actually the name of the key doesn't matter.
 
 ## How to start
 
