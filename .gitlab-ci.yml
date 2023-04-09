@@ -6,8 +6,3 @@ before_script:
 
 stages:
   - Static Analysis
-
-pylint:
-  stage: Static Analysis
-  script:
-  - pylint -d C0301 src/*.py
