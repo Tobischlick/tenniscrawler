@@ -1,5 +1,4 @@
-import crawler
-import helper
+from src import helper, crawler
 import configparser
 import time
 from pathlib import Path

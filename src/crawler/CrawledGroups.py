@@ -3,7 +3,7 @@ import csv
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from pathlib import Path
-import helper
+from src import helper
 
 Terminal = helper.Terminal()
 
