@@ -2,8 +2,20 @@
 
 ## How to config
 
-Set the wanted URL's in [config.ini](.config/config.ini), each URL has to be a single line. 
-Actually the name of the key doesn't matter.
+Config is located [here](.config/config.ini)
+
+There are two things that you can configure:
+
+### URLS
+
+- The name of the keys doesnt matter, just the values are used. Here you can list the links of 'Bezirk' (by default all
+  of them in Baden)
+
+### MAILS
+
+- The Type of mail you want to crawl. Naming of the key's is not important
+
+You might have to install some packages like 'request' or 'beautifulsoup4', just use pip install.
 
 ## How to start
 
