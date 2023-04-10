@@ -1,3 +1,5 @@
+import configparser
+
 import requests
 from src import helper
 import csv
@@ -12,6 +14,10 @@ class CrawledMails:
         Terminal.print("initialized CrawledMails")
 
     def fetch(self, counter, filename_mails):
+        config = configparser.ConfigParser()
+        config.read('.config/config.ini')
+        mails_config = dict(config['MAILS'])
+
         with open(filename_mails, "a", newline="") as csvfile:
             Terminal.print(f"{filename_mails} created")
             with open(self.filepath, newline="") as csvfile_read:
@@ -26,13 +32,14 @@ class CrawledMails:
                     finder = doc.find_all("td")
                     for i in range(0, len(finder)):
                         mail_type = finder[i].text
-                        if mail_type == "Sportwart:in" or mail_type == "Jugendwart:in" or mail_type == "1. Vorsitzende:r" or mail_type == "2. Vorsitzende:r":
-                            mail_string = finder[i + 3].string
-                            if mail_string != "-" and mail_string != "":
-                                mail = self.encode_mail(mail_string)
-                                writer.writerow([mail_type, mail, counter])
-                                Terminal.print(
-                                    f"Mail '{mail}' ({mail_type}) from Bezirk {counter} added to {filename_mails}")
+                        for mail_pattern in mails_config.values():
+                            if mail_type == mail_pattern:
+                                mail_string = finder[i + 3].string
+                                if mail_string != "-" and mail_string != "":
+                                    mail = self.encode_mail(mail_string)
+                                    writer.writerow([mail_type, mail, counter])
+                                    Terminal.print(
+                                        f"Mail '{mail}' ({mail_type}) from Bezirk {counter} added to {filename_mails}")
         Terminal.print(f"{filename_mails} returned")
 
     def encode_mail(self, mail):

@@ -9,7 +9,7 @@ t_start = time.perf_counter()
 
 config = configparser.ConfigParser()
 config.read('.config/config.ini')
-urls =  dict(config['URLS'])
+urls = dict(config['URLS'])
 
 counter = 1
 
