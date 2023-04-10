@@ -8,7 +8,7 @@ There are two things that you can configure:
 
 ### URLS
 
-- The name of the keys doesnt matter, just the values are used. Here you can list the links of 'Bezirk' (by default all
+- The name of the keys doesn't matter, just the values are used. Here you can list the links of 'Bezirk' (by default all
   of them in Baden)
 
 ### MAILS
@@ -19,4 +19,10 @@ You might have to install some packages like 'request' or 'beautifulsoup4', just
 
 ## How to start
 
-Run the crawler with `python crawler.py`
+Run the crawler with `python crawler.py`. The result is a .csv file named '04_Mails.csv' with the following columns:
+
+- 'Position'
+- 'E-Mail'
+- 'Bezirk'
+
+You can simply convert the .csv file to an Excel table.
