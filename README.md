@@ -19,6 +19,8 @@ You might have to install some packages like 'request' or 'beautifulsoup4', just
 
 ## How to start
 
+If not existing, create the directories 'Logfiles' and 'Excelfiles' on root level. Install the necessary libs via pip install.
+
 Run the crawler with `python crawler.py`. The result is a .csv file named '04_Mails.csv' with the following columns:
 
 - 'Position'

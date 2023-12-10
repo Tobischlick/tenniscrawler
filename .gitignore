@@ -1,4 +1,4 @@
-Logfiles/
-Excelfiles/
+Logfiles/*
+Excelfiles/*
 .idea/
 *.pyc
