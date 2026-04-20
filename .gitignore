@@ -1,4 +1,6 @@
 Logfiles/*
 Excelfiles/*
 .idea/
+.venv/
+venv/
 *.pyc
