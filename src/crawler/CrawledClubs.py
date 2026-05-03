@@ -32,6 +32,11 @@ class CrawledClubs:
                         r = requests.get(club_url)
                         doc = BeautifulSoup(r.text, "html.parser")
                         table = doc.select_one(".result-set")
+
+                        if table is None:
+                            Terminal.print(f"Warning: Could not find table at {club_url}. Skipping...")
+                            continue
+
                         links = table.find_all("a")
                         club = links[0].text.strip()
                         urlsite = urljoin(club_url, links[0].attrs["href"])
