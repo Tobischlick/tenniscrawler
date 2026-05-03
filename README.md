@@ -1,8 +1,12 @@
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Tobischlick/tenniscrawler)
+![GitHub](https://img.shields.io/github/license/Tobischlick/tenniscrawler)
+![GitHub top language](https://img.shields.io/github/languages/top/Tobischlick/tenniscrawler)
+
 # 🎾 TennisCrawler
 
 **TennisCrawler** is a Python-based automation tool designed to scrape contact information from the Badischer
 Tennisverband (nuliga) website. It navigates through regional "Bezirk" pages to extract specific email addresses and
-exports them into a structured CSV format for easy management and data processing[cite: 2].
+exports them into a structured CSV format for easy management and data processing.
 
 The tool is specifically built to help tennis club administrators and regional coordinators streamline the process of
 gathering contact data from official association pages.
