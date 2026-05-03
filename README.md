@@ -80,4 +80,4 @@ Execute the main script from the root directory of the project:
 
 ```bash
 python crawler.py
-``
+```
