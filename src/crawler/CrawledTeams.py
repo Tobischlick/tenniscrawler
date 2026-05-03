@@ -29,6 +29,11 @@ class CrawledTeams:
                         r = requests.get(urlLeague)
                         doc = BeautifulSoup(r.text, "html.parser")
                         table = doc.select_one(".result-set")
+
+                        if table is None:
+                            Terminal.print(f"Warning: Could not find table at {team_url}. Skipping...")
+                            continue
+
                         links = table.find_all("a")
                         writer = csv.writer(csvfile, delimiter=';', quotechar='|')
                         for link in links:
