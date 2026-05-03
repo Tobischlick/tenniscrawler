@@ -1,0 +1,13 @@
+[MASTER]
+# Ignore the virtual environment
+ignore=venv
+
+[MESSAGES CONTROL]
+# Disable specific checks that might be too strict for a crawler
+# C0114: missing-module-docstring
+# C0116: missing-function-docstring
+# R0903: too-few-public-methods (common in your CrawledClasses)
+disable=C0114, C0116, R0903, C0115
+
+[FORMAT]
+max-line-length=127
