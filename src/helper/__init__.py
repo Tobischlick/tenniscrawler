@@ -1,5 +1,4 @@
 __all__ = ["DeleteDuplicates", "Terminal"]
 
-from .DeleteDuplicates import DeleteDuplicates
-from .Terminal import Terminal
-
+from .delete_duplicates import DeleteDuplicates
+from .terminal import Terminal

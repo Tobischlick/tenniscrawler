@@ -1,6 +1,6 @@
 __all__ = ["CrawledGroups", "CrawledTeams", "CrawledClubs", "CrawledMails"]
 
-from .CrawledGroups import CrawledGroups
-from .CrawledTeams import CrawledTeams
-from .CrawledClubs import CrawledClubs
-from .CrawledMails import CrawledMails
+from .crawled_groups import CrawledGroups
+from .crawled_teams import CrawledTeams
+from .crawled_clubs import CrawledClubs
+from .crawled_mails import CrawledMails
