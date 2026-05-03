@@ -1,3 +1,4 @@
+![PyLint](https://github.com/Tobischlick/tenniscrawler/actions/workflows/linter.yml/badge.svg)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Tobischlick/tenniscrawler)
 ![GitHub](https://img.shields.io/github/license/Tobischlick/tenniscrawler)
 ![GitHub top language](https://img.shields.io/github/languages/top/Tobischlick/tenniscrawler)
