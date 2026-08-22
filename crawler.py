@@ -3,6 +3,9 @@ import time
 from pathlib import Path
 from src import helper, crawler
 
+Path("Logfiles").mkdir(exist_ok=True)
+Path("Excelfiles").mkdir(exist_ok=True)
+
 TERMINAL = helper.Terminal()
 TERMINAL.print("------------------------------start crawler-----------------------------")
 t_start = time.perf_counter()
