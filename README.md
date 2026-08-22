@@ -44,16 +44,11 @@ source venv/bin/activate
 ### 3. Install Dependencies
 
 ```bash
-pip install requests
-pip install bs4
+pip install -r requirements.txt
 ```
 
-### 4. Prepare Directories
-
-```bash
-mkdir Logfiles
-mkdir Excelfiles
-```
+The `Logfiles` and `Excelfiles` directories are created automatically on the
+first run of the crawler.
 
 ## ⚙️ Configuration
 
