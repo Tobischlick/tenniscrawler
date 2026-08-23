@@ -1,13 +1,27 @@
 import configparser
+import logging
+import sys
 import time
+from datetime import datetime
 from pathlib import Path
 from src import helper, crawler
 
 Path("Logfiles").mkdir(exist_ok=True)
 Path("Excelfiles").mkdir(exist_ok=True)
 
-TERMINAL = helper.Terminal()
-TERMINAL.print("------------------------------start crawler-----------------------------")
+date = datetime.now().strftime("%d.%m.%y")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%d.%m.%y - %H:%M:%S",
+    handlers=[
+        logging.FileHandler(f"Logfiles/{date}_log.txt", encoding="utf-8"),
+        logging.StreamHandler(sys.stdout),
+    ],
+)
+logger = logging.getLogger(__name__)
+
+logger.info("------------------------------start crawler-----------------------------")
 t_start = time.perf_counter()
 
 config = configparser.ConfigParser()
@@ -20,7 +34,7 @@ DELETE_DUPLICATE = helper.DeleteDuplicates()
 
 files_leagues = []
 for url in urls.values():
-    print("url: " + url)
+    logger.info("url: %s", url)
     crawl_groups = crawler.CrawledGroups(url)
     files_leagues.append(crawl_groups.fetch(counter))
     counter = counter + 1
@@ -47,7 +61,7 @@ FILENAME_MAILS = "./Excelfiles/04_Mails.csv"
 CHECK_FILE = Path(FILENAME_MAILS)
 
 if CHECK_FILE.is_file():
-    TERMINAL.print(f"File {FILENAME_MAILS} does already exist")
+    logger.info("File %s does already exist", FILENAME_MAILS)
 else:
     for file in files_clubsites:
         crawl_mails = crawler.CrawledMails(file)
@@ -62,4 +76,4 @@ if d >= 60:
 else:
     d = f"{round(d, 2)}s"
 
-TERMINAL.print(f"------------------------------end crawler: {d}------------------------------")
+logger.info("------------------------------end crawler: %s------------------------------", d)

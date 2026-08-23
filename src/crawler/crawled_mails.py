@@ -1,16 +1,16 @@
 import configparser
 import csv
+import logging
 import requests
 from bs4 import BeautifulSoup
-from src import helper
 
-TERMINAL = helper.Terminal()
+logger = logging.getLogger(__name__)
 
 
 class CrawledMails:
     def __init__(self, filepath):
         self.filepath = filepath
-        TERMINAL.print("initialized CrawledMails")
+        logger.info("initialized CrawledMails")
 
     def fetch(self, counter, filename_mails):
         config = configparser.ConfigParser()
@@ -18,9 +18,9 @@ class CrawledMails:
         mails_config = dict(config['MAILS'])
 
         with open(filename_mails, "a", newline="", encoding="utf-8") as csvfile:
-            TERMINAL.print(f"{filename_mails} created")
+            logger.info("%s created", filename_mails)
             with open(self.filepath, newline="", encoding="utf-8") as csvfile_read:
-                TERMINAL.print(f"read file: {self.filepath}")
+                logger.info("read file: %s", self.filepath)
                 reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
                 writer = csv.writer(csvfile, delimiter=';', quotechar='|')
                 writer.writerow(['Position', 'E-Mail', 'Bezirk'])
@@ -37,9 +37,10 @@ class CrawledMails:
                                 if mail_string != "-" and mail_string != "":
                                     mail = self.encode_mail(mail_string)
                                     writer.writerow([mail_type, mail, counter])
-                                    TERMINAL.print(
-                                        f"Mail '{mail}' ({mail_type}) from Bezirk {counter} added to {filename_mails}")
-        TERMINAL.print(f"{filename_mails} returned")
+                                    logger.info(
+                                        "Mail '%s' (%s) from Bezirk %s added to %s",
+                                        mail, mail_type, counter, filename_mails)
+        logger.info("%s returned", filename_mails)
 
     def encode_mail(self, mail):
         mail = mail.strip()
