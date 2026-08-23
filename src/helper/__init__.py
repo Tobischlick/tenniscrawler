@@ -1,4 +1,3 @@
-__all__ = ["DeleteDuplicates", "Terminal"]
+__all__ = ["DeleteDuplicates"]
 
 from .delete_duplicates import DeleteDuplicates
-from .terminal import Terminal
