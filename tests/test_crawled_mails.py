@@ -1,4 +1,3 @@
-import pytest
 import requests
 
 from src.crawler.crawled_mails import CrawledMails
@@ -63,8 +62,36 @@ def test_encode_mail_with_single_name_part():
     assert result == "info@tvbeispiel.de"
 
 
-def test_encode_mail_raises_on_malformed_payload():
+def test_encode_mail_returns_none_on_malformed_payload():
     crawled_mails = CrawledMails(filepath="unused", session=None)
 
-    with pytest.raises(IndexError):
-        crawled_mails.encode_mail("encodeEmail('de', 'info', 'tvbeispiel')")
+    result = crawled_mails.encode_mail("encodeEmail('de', 'info', 'tvbeispiel')")
+
+    assert result is None
+
+
+def test_fetch_skips_row_with_malformed_encode_mail_payload(isolated_cwd, mail_config, patch_http_get):
+    input_path = isolated_cwd / "clubsites.csv"
+    write_csv(input_path, [CLUB_SITE_A_URL])
+    patch_http_get(read_fixture("club_site_mail_malformed.html"))
+    filename_mails = "./Excelfiles/04_Mails.csv"
+
+    CrawledMails(str(input_path), session=None).fetch(1, filename_mails)
+
+    rows = read_csv_rows(isolated_cwd / "Excelfiles" / "04_Mails.csv")
+    assert rows == [
+        ["Position", "E-Mail", "Bezirk"],
+        ["Jugendwart:in", "info@tvbeispiel.de", "1"],
+    ]
+
+
+def test_fetch_skips_row_with_no_mail_cell_after_label(isolated_cwd, mail_config, patch_http_get):
+    input_path = isolated_cwd / "clubsites.csv"
+    write_csv(input_path, [CLUB_SITE_A_URL])
+    patch_http_get(read_fixture("club_site_mail_truncated.html"))
+    filename_mails = "./Excelfiles/04_Mails.csv"
+
+    CrawledMails(str(input_path), session=None).fetch(1, filename_mails)
+
+    rows = read_csv_rows(isolated_cwd / "Excelfiles" / "04_Mails.csv")
+    assert rows == [["Position", "E-Mail", "Bezirk"]]

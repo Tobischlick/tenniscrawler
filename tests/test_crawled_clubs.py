@@ -1,4 +1,3 @@
-import pytest
 import requests
 
 from src.crawler.crawled_clubs import CrawledClubs
@@ -53,13 +52,18 @@ def test_fetch_skips_row_missing_result_set(isolated_cwd, patch_http_get):
     assert rows == [[CLUB_SITE_URL]]
 
 
-def test_fetch_raises_indexerror_when_result_set_has_no_links(isolated_cwd, patch_http_get):
+def test_fetch_skips_row_when_result_set_has_no_links(isolated_cwd, patch_http_get):
     input_path = isolated_cwd / "clubs.csv"
-    write_csv(input_path, [CLUB_A_URL])
-    patch_http_get(read_fixture("club_page_empty_links.html"))
+    write_csv(input_path, [CLUB_A_URL, CLUB_B_URL])
+    patch_http_get({
+        CLUB_A_URL: read_fixture("club_page_empty_links.html"),
+        CLUB_B_URL: read_fixture("club_page.html"),
+    })
 
-    with pytest.raises(IndexError):
-        CrawledClubs(str(input_path), session=None).fetch(1)
+    CrawledClubs(str(input_path), session=None).fetch(1)
+
+    rows = read_csv_rows(isolated_cwd / "Excelfiles" / "03_Clubs_Bezirk_1.csv")
+    assert rows == [[CLUB_SITE_URL]]
 
 
 def test_fetch_skips_if_output_already_exists(isolated_cwd):
