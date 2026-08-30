@@ -3,13 +3,15 @@ import csv
 import logging
 import requests
 from bs4 import BeautifulSoup
+from src.helper import http_client
 
 logger = logging.getLogger(__name__)
 
 
 class CrawledMails:
-    def __init__(self, filepath):
+    def __init__(self, filepath, session):
         self.filepath = filepath
+        self.session = session
         logger.info("initialized CrawledMails")
 
     def fetch(self, counter, filename_mails):
@@ -26,7 +28,11 @@ class CrawledMails:
                 writer.writerow(['Position', 'E-Mail', 'Bezirk'])
                 for row in reader:
                     url_clubsite = ' '.join(row)
-                    r = requests.get(url_clubsite)
+                    try:
+                        r = http_client.get(self.session, url_clubsite)
+                    except requests.RequestException as e:
+                        logger.warning("Request to %s failed: %s. Skipping...", url_clubsite, e)
+                        continue
                     doc = BeautifulSoup(r.text, "html.parser")
                     finder = doc.find_all("td")
                     for i in range(0, len(finder)):

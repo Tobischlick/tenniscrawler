@@ -2,21 +2,22 @@ import csv
 import logging
 from urllib.parse import urljoin
 from pathlib import Path
-import requests
 from bs4 import BeautifulSoup
+from src.helper import http_client
 
 logger = logging.getLogger(__name__)
 
 
 class CrawledGroups:
 
-    def __init__(self, url):
+    def __init__(self, url, session):
         self.url = url
+        self.session = session
         logger.info("initialized CrawledGroups")
 
     def fetch(self, counter):
         c = 1
-        r = requests.get(self.url)
+        r = http_client.get(self.session, self.url)
         doc = BeautifulSoup(r.text, "html.parser")
         table = doc.select_one(".result-set")
         links = table.find_all("a")

@@ -4,13 +4,15 @@ from urllib.parse import urljoin
 from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
+from src.helper import http_client
 
 logger = logging.getLogger(__name__)
 
 
 class CrawledTeams:
-    def __init__(self, filepath):
+    def __init__(self, filepath, session):
         self.filepath = filepath
+        self.session = session
         logger.info("initialized 'CrawledTeams'")
 
     def fetch(self, counter):
@@ -26,7 +28,11 @@ class CrawledTeams:
                     reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
                     for row in reader:
                         url_league = ' '.join(row)
-                        r = requests.get(url_league)
+                        try:
+                            r = http_client.get(self.session, url_league)
+                        except requests.RequestException as e:
+                            logger.warning("Request to %s failed: %s. Skipping...", url_league, e)
+                            continue
                         doc = BeautifulSoup(r.text, "html.parser")
                         table = doc.select_one(".result-set")
 

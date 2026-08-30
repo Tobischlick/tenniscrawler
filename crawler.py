@@ -31,25 +31,26 @@ urls = dict(config['URLS'])
 counter = 1
 
 DELETE_DUPLICATE = helper.DeleteDuplicates()
+session = helper.http_client.create_session()
 
 files_leagues = []
 for url in urls.values():
     logger.info("url: %s", url)
-    crawl_groups = crawler.CrawledGroups(url)
+    crawl_groups = crawler.CrawledGroups(url, session)
     files_leagues.append(crawl_groups.fetch(counter))
     counter = counter + 1
 
 counter = 1
 files_clubs = []
 for file in files_leagues:
-    crawl_teams = crawler.CrawledTeams(file)
+    crawl_teams = crawler.CrawledTeams(file, session)
     files_clubs.append(crawl_teams.fetch(counter))
     counter = counter + 1
 
 counter = 1
 files_clubsites = []
 for file in files_clubs:
-    crawl_clubs = crawler.CrawledClubs(file)
+    crawl_clubs = crawler.CrawledClubs(file, session)
     files_clubsites.append(crawl_clubs.fetch(counter))
     counter = counter + 1
 
@@ -64,7 +65,7 @@ if CHECK_FILE.is_file():
     logger.info("File %s does already exist", FILENAME_MAILS)
 else:
     for file in files_clubsites:
-        crawl_mails = crawler.CrawledMails(file)
+        crawl_mails = crawler.CrawledMails(file, session)
         crawl_mails.fetch(counter, FILENAME_MAILS)
         counter = counter + 1
 
