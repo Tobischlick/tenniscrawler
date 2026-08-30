@@ -66,12 +66,22 @@ def test_fetch_skips_row_when_result_set_has_no_links(isolated_cwd, patch_http_g
     assert rows == [[CLUB_SITE_URL]]
 
 
-def test_fetch_skips_if_output_already_exists(isolated_cwd):
+def test_fetch_resumes_and_skips_already_checkpointed_rows(isolated_cwd, patch_http_get):
     input_path = isolated_cwd / "clubs.csv"
-    write_csv(input_path, [CLUB_A_URL])
+    write_csv(input_path, [CLUB_A_URL, CLUB_B_URL])
     output_path = isolated_cwd / "Excelfiles" / "03_Clubs_Bezirk_1.csv"
-    output_path.write_text("SENTINEL\n", encoding="utf-8")
+    write_csv(output_path, [CLUB_SITE_URL])
+    (isolated_cwd / "Excelfiles" / "03_Clubs_Bezirk_1.csv.checkpoint").write_text(
+        CLUB_A_URL + "\n", encoding="utf-8")
+
+    def responses(url):
+        if url == CLUB_A_URL:
+            raise AssertionError("already-checkpointed row should not be refetched")
+        return read_fixture("club_page.html")
+
+    patch_http_get(responses)
 
     CrawledClubs(str(input_path), session=None).fetch(1)
 
-    assert output_path.read_text(encoding="utf-8") == "SENTINEL\n"
+    rows = read_csv_rows(output_path)
+    assert rows == [[CLUB_SITE_URL], [CLUB_SITE_URL]]

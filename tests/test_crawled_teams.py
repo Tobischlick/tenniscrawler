@@ -57,12 +57,24 @@ def test_fetch_skips_row_missing_result_set(isolated_cwd, patch_http_get):
     assert rows == [[urljoin(LEAGUE_B_URL, href)] for href in TEAM_HREFS]
 
 
-def test_fetch_skips_if_output_already_exists(isolated_cwd):
+def test_fetch_resumes_and_skips_already_checkpointed_rows(isolated_cwd, patch_http_get):
     input_path = isolated_cwd / "leagues.csv"
-    write_csv(input_path, [LEAGUE_A_URL])
+    write_csv(input_path, [LEAGUE_A_URL, LEAGUE_B_URL])
     output_path = isolated_cwd / "Excelfiles" / "02_Mannschaften_Bezirk_1.csv"
-    output_path.write_text("SENTINEL\n", encoding="utf-8")
+    existing_rows = [[urljoin(LEAGUE_A_URL, href)] for href in TEAM_HREFS]
+    write_csv(output_path, [row[0] for row in existing_rows])
+    (isolated_cwd / "Excelfiles" / "02_Mannschaften_Bezirk_1.csv.checkpoint").write_text(
+        LEAGUE_A_URL + "\n", encoding="utf-8")
+
+    def responses(url):
+        if url == LEAGUE_A_URL:
+            raise AssertionError("already-checkpointed row should not be refetched")
+        return read_fixture("team_page.html")
+
+    patch_http_get(responses)
 
     CrawledTeams(str(input_path), session=None).fetch(1)
 
-    assert output_path.read_text(encoding="utf-8") == "SENTINEL\n"
+    rows = read_csv_rows(output_path)
+    expected = existing_rows + [[urljoin(LEAGUE_B_URL, href)] for href in TEAM_HREFS]
+    assert rows == expected

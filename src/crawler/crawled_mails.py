@@ -1,9 +1,11 @@
 import configparser
 import csv
 import logging
+from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 from src.helper import http_client
+from src.helper.checkpoint import Checkpoint
 
 logger = logging.getLogger(__name__)
 
@@ -19,19 +21,28 @@ class CrawledMails:
         config.read('.config/config.ini')
         mails_config = dict(config['MAILS'])
 
+        checkpoint = Checkpoint(f"{self.filepath}.mails-checkpoint")
+        mails_file = Path(filename_mails)
+        write_header = not mails_file.is_file() or mails_file.stat().st_size == 0
+
         with open(filename_mails, "a", newline="", encoding="utf-8") as csvfile:
-            logger.info("%s created", filename_mails)
+            writer = csv.writer(csvfile, delimiter=';', quotechar='|')
+            if write_header:
+                writer.writerow(['Position', 'E-Mail', 'Bezirk'])
+                csvfile.flush()
             with open(self.filepath, newline="", encoding="utf-8") as csvfile_read:
                 logger.info("read file: %s", self.filepath)
                 reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
-                writer = csv.writer(csvfile, delimiter=';', quotechar='|')
-                writer.writerow(['Position', 'E-Mail', 'Bezirk'])
                 for row in reader:
                     url_clubsite = ' '.join(row)
+                    if checkpoint.is_done(url_clubsite):
+                        logger.info("%s already processed, skipping", url_clubsite)
+                        continue
                     try:
                         r = http_client.get(self.session, url_clubsite)
                     except requests.RequestException as e:
                         logger.warning("Request to %s failed: %s. Skipping...", url_clubsite, e)
+                        checkpoint.mark_done(url_clubsite)
                         continue
                     doc = BeautifulSoup(r.text, "html.parser")
                     finder = doc.find_all("td")
@@ -49,9 +60,12 @@ class CrawledMails:
                                     mail = self.encode_mail(mail_string, url_clubsite)
                                     if mail is not None:
                                         writer.writerow([mail_type, mail, counter])
+                                        csvfile.flush()
                                         logger.info(
                                             "Mail '%s' (%s) from Bezirk %s added to %s",
                                             mail, mail_type, counter, filename_mails)
+                    checkpoint.mark_done(url_clubsite)
+        checkpoint.close()
         logger.info("%s returned", filename_mails)
 
     def encode_mail(self, mail, url=None):

@@ -59,15 +59,11 @@ for file in files_clubsites:
 
 counter = 1
 FILENAME_MAILS = "./Excelfiles/04_Mails.csv"
-CHECK_FILE = Path(FILENAME_MAILS)
 
-if CHECK_FILE.is_file():
-    logger.info("File %s does already exist", FILENAME_MAILS)
-else:
-    for file in files_clubsites:
-        crawl_mails = crawler.CrawledMails(file, session)
-        crawl_mails.fetch(counter, FILENAME_MAILS)
-        counter = counter + 1
+for file in files_clubsites:
+    crawl_mails = crawler.CrawledMails(file, session)
+    crawl_mails.fetch(counter, FILENAME_MAILS)
+    counter = counter + 1
 
 t_end = time.perf_counter()
 d = t_end - t_start
