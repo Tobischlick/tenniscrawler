@@ -7,7 +7,9 @@ ignore=venv
 # C0114: missing-module-docstring
 # C0116: missing-function-docstring
 # R0903: too-few-public-methods (common in your CrawledClasses)
-disable=C0114, C0116, R0903, C0115
+# W0621: redefined-outer-name (pytest fixtures are passed as test arguments by design)
+# W0613: unused-argument (fixtures are often requested only for their side effect)
+disable=C0114, C0116, R0903, C0115, W0621, W0613
 
 [FORMAT]
 max-line-length=127
