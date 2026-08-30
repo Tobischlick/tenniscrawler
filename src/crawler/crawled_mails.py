@@ -2,9 +2,8 @@ import configparser
 import csv
 import logging
 from pathlib import Path
-import requests
 from bs4 import BeautifulSoup
-from src.helper import http_client
+from src.helper import concurrent_fetch
 from src.helper.checkpoint import Checkpoint
 
 logger = logging.getLogger(__name__)
@@ -33,38 +32,41 @@ class CrawledMails:
             with open(self.filepath, newline="", encoding="utf-8") as csvfile_read:
                 logger.info("read file: %s", self.filepath)
                 reader = csv.reader(csvfile_read, delimiter=';', quotechar='|')
+                pending = []
                 for row in reader:
                     url_clubsite = ' '.join(row)
                     if checkpoint.is_done(url_clubsite):
                         logger.info("%s already processed, skipping", url_clubsite)
                         continue
-                    try:
-                        r = http_client.get(self.session, url_clubsite)
-                    except requests.RequestException as e:
-                        logger.warning("Request to %s failed: %s. Skipping...", url_clubsite, e)
-                        checkpoint.mark_done(url_clubsite)
-                        continue
-                    doc = BeautifulSoup(r.text, "html.parser")
-                    finder = doc.find_all("td")
-                    for i in range(0, len(finder)):
-                        mail_type = finder[i].text
-                        for mail_pattern in mails_config.values():
-                            if mail_type == mail_pattern:
-                                if i + 3 >= len(finder):
-                                    logger.warning(
-                                        "No mail cell found for '%s' at %s. Skipping...",
-                                        mail_type, url_clubsite)
-                                    break
-                                mail_string = finder[i + 3].string
-                                if mail_string != "-" and mail_string != "":
-                                    mail = self.encode_mail(mail_string, url_clubsite)
-                                    if mail is not None:
-                                        writer.writerow([mail_type, mail, counter])
-                                        csvfile.flush()
-                                        logger.info(
-                                            "Mail '%s' (%s) from Bezirk %s added to %s",
-                                            mail, mail_type, counter, filename_mails)
+                    pending.append(url_clubsite)
+                pending = list(dict.fromkeys(pending))
+
+            for url_clubsite, r, error in concurrent_fetch.fetch_all(self.session, pending):
+                if error is not None:
+                    logger.warning("Request to %s failed: %s. Skipping...", url_clubsite, error)
                     checkpoint.mark_done(url_clubsite)
+                    continue
+                doc = BeautifulSoup(r.text, "html.parser")
+                finder = doc.find_all("td")
+                for i in range(0, len(finder)):
+                    mail_type = finder[i].text
+                    for mail_pattern in mails_config.values():
+                        if mail_type == mail_pattern:
+                            if i + 3 >= len(finder):
+                                logger.warning(
+                                    "No mail cell found for '%s' at %s. Skipping...",
+                                    mail_type, url_clubsite)
+                                break
+                            mail_string = finder[i + 3].string
+                            if mail_string != "-" and mail_string != "":
+                                mail = self.encode_mail(mail_string, url_clubsite)
+                                if mail is not None:
+                                    writer.writerow([mail_type, mail, counter])
+                                    csvfile.flush()
+                                    logger.info(
+                                        "Mail '%s' (%s) from Bezirk %s added to %s",
+                                        mail, mail_type, counter, filename_mails)
+                checkpoint.mark_done(url_clubsite)
         checkpoint.close()
         logger.info("%s returned", filename_mails)
 
