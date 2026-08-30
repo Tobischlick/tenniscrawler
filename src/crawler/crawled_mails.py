@@ -39,21 +39,30 @@ class CrawledMails:
                         mail_type = finder[i].text
                         for mail_pattern in mails_config.values():
                             if mail_type == mail_pattern:
+                                if i + 3 >= len(finder):
+                                    logger.warning(
+                                        "No mail cell found for '%s' at %s. Skipping...",
+                                        mail_type, url_clubsite)
+                                    break
                                 mail_string = finder[i + 3].string
                                 if mail_string != "-" and mail_string != "":
-                                    mail = self.encode_mail(mail_string)
-                                    writer.writerow([mail_type, mail, counter])
-                                    logger.info(
-                                        "Mail '%s' (%s) from Bezirk %s added to %s",
-                                        mail, mail_type, counter, filename_mails)
+                                    mail = self.encode_mail(mail_string, url_clubsite)
+                                    if mail is not None:
+                                        writer.writerow([mail_type, mail, counter])
+                                        logger.info(
+                                            "Mail '%s' (%s) from Bezirk %s added to %s",
+                                            mail, mail_type, counter, filename_mails)
         logger.info("%s returned", filename_mails)
 
-    def encode_mail(self, mail):
+    def encode_mail(self, mail, url=None):
         mail = mail.strip()
         mail = mail.replace("encodeEmail(", "")
         mail = mail.replace(")", "")
         mail = mail.replace("'", "")
         mail_splitted = mail.split(",")
+        if len(mail_splitted) != 4:
+            logger.warning("Unexpected encodeEmail payload '%s' at %s. Skipping...", mail, url)
+            return None
         top_level_domain = mail_splitted[0].strip()
         m1 = mail_splitted[1].strip()
         domain = mail_splitted[2].strip()

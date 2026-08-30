@@ -44,6 +44,10 @@ class CrawledClubs:
                             continue
 
                         links = table.find_all("a")
+                        if not links:
+                            logger.warning("No links found in result-set at %s. Skipping...", club_url)
+                            continue
+
                         club = links[0].text.strip()
                         urlsite = urljoin(club_url, links[0].attrs["href"])
                         writer.writerow([urlsite])
