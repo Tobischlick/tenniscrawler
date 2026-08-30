@@ -95,3 +95,42 @@ def test_fetch_skips_row_with_no_mail_cell_after_label(isolated_cwd, mail_config
 
     rows = read_csv_rows(isolated_cwd / "Excelfiles" / "04_Mails.csv")
     assert rows == [["Position", "E-Mail", "Bezirk"]]
+
+
+def test_fetch_writes_header_only_once_across_multiple_calls(isolated_cwd, mail_config, patch_http_get):
+    input_path_a = isolated_cwd / "clubsites_a.csv"
+    input_path_b = isolated_cwd / "clubsites_b.csv"
+    write_csv(input_path_a, [CLUB_SITE_A_URL])
+    write_csv(input_path_b, [CLUB_SITE_B_URL])
+    patch_http_get(read_fixture("club_site_mails.html"))
+    filename_mails = "./Excelfiles/04_Mails.csv"
+
+    CrawledMails(str(input_path_a), session=None).fetch(1, filename_mails)
+    CrawledMails(str(input_path_b), session=None).fetch(2, filename_mails)
+
+    rows = read_csv_rows(isolated_cwd / "Excelfiles" / "04_Mails.csv")
+    header_rows = [row for row in rows if row == ["Position", "E-Mail", "Bezirk"]]
+    assert len(header_rows) == 1
+
+
+def test_fetch_resumes_and_skips_already_checkpointed_rows(isolated_cwd, mail_config, patch_http_get):
+    input_path = isolated_cwd / "clubsites.csv"
+    write_csv(input_path, [CLUB_SITE_A_URL, CLUB_SITE_B_URL])
+    filename_mails = "./Excelfiles/04_Mails.csv"
+    (isolated_cwd / "clubsites.csv.mails-checkpoint").write_text(CLUB_SITE_A_URL + "\n", encoding="utf-8")
+
+    def responses(url):
+        if url == CLUB_SITE_A_URL:
+            raise AssertionError("already-checkpointed row should not be refetched")
+        return read_fixture("club_site_mails.html")
+
+    patch_http_get(responses)
+
+    CrawledMails(str(input_path), session=None).fetch(1, filename_mails)
+
+    rows = read_csv_rows(isolated_cwd / "Excelfiles" / "04_Mails.csv")
+    assert rows == [
+        ["Position", "E-Mail", "Bezirk"],
+        ["Sportwart:in", "max.mustermann@tvbeispiel.de", "1"],
+        ["Jugendwart:in", "info@tvbeispiel.de", "1"],
+    ]
