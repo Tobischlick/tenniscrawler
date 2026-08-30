@@ -1,4 +1,4 @@
-name: Python Pylint
+name: Python Checks
 
 on: [push, pull_request]
 
@@ -24,3 +24,23 @@ jobs:
       run: |
         # We target the src folder and the main crawler script
         pylint $(git ls-files '*.py') --fail-under=8.0
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+
+    - name: Set up Python
+      uses: actions/setup-python@v7
+      with:
+        python-version: '3.14'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt -r requirements-dev.txt
+
+    - name: Run pytest
+      run: pytest
