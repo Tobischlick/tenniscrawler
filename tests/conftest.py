@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from src.helper import http_client
+from src.helper import concurrent_fetch, http_client
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
@@ -28,6 +28,11 @@ def read_csv_rows(path):
 class FakeResponse:
     def __init__(self, text):
         self.text = text
+
+
+@pytest.fixture(autouse=True)
+def _fast_concurrent_fetch(monkeypatch):
+    monkeypatch.setattr(concurrent_fetch, "MIN_REQUEST_INTERVAL", 0)
 
 
 @pytest.fixture
