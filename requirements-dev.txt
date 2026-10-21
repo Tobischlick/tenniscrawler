@@ -1,1 +1,2 @@
-pytest>=8.0
+pytest==9.1.1
+pylint==4.1.3
