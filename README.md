@@ -47,6 +47,25 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+For development (tests and linting), also install `requirements-dev.txt`:
+
+```bash
+pip install -r requirements.txt -r requirements-dev.txt
+```
+
+`requirements.txt` and `requirements-dev.txt` are generated lock files that pin every package, including transitive
+ones. Don't edit them by hand: change the direct dependencies in `requirements.in` / `requirements-dev.in` and
+regenerate with [pip-tools](https://github.com/jazzband/pip-tools):
+
+```bash
+pip install pip-tools
+pip-compile --strip-extras --output-file=requirements.txt requirements.in
+pip-compile --strip-extras --output-file=requirements-dev.txt requirements-dev.in
+```
+
+Renovate keeps the pins up to date, and OSV-Scanner checks them for known vulnerabilities on every PR and daily on
+`main`. To ignore a vulnerability, add a documented, expiring entry to `osv-scanner.toml`.
+
 The `Logfiles` and `Excelfiles` directories are created automatically on the
 first run of the crawler.
 
