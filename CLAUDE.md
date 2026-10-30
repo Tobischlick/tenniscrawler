@@ -27,6 +27,15 @@ into `Excelfiles/`. No framework — just `requests` + `bs4`.
 - `Logfiles/` — run logs.
 - [.github/workflows/linter.yml](.github/workflows/linter.yml) — Pylint over
   `git ls-files '*.py'`, `--fail-under=8.0`.
+- [.github/workflows/osv-scanner-pr.yml](.github/workflows/osv-scanner-pr.yml) /
+  [osv-scanner.yml](.github/workflows/osv-scanner.yml) — OSV-Scanner on PRs to
+  `main` (fails only on newly introduced vulns) and daily/on push to `main`
+  (SARIF → Security tab). Ignores go in [osv-scanner.toml](osv-scanner.toml)
+  with `reason` and `ignoreUntil`.
+- `requirements.in` / `requirements-dev.in` — direct deps. `requirements.txt` /
+  `requirements-dev.txt` are pip-compile lock files (all transitive deps
+  pinned); never edit them by hand. Renovate updates them via its
+  `pip-compile` manager.
 - [.pylintrc](.pylintrc) — max line length 127; docstring/too-few-public-methods
   checks disabled (stage classes are intentionally thin).
 
@@ -38,6 +47,13 @@ source venv/bin/activate && python crawler.py
 
 ```bash
 pylint $(git ls-files '*.py') --fail-under=8.0
+```
+
+After changing a `.in` file, regenerate the lock files (needs `pip-tools`):
+
+```bash
+pip-compile --strip-extras --output-file=requirements.txt requirements.in
+pip-compile --strip-extras --output-file=requirements-dev.txt requirements-dev.in
 ```
 
 ## Before starting any task

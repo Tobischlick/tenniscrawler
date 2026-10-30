@@ -1,0 +1,8 @@
+# OSV-Scanner configuration: https://google.github.io/osv-scanner/configuration/
+#
+# Only ignore a vulnerability with a documented reason and an expiry date, e.g.:
+#
+# [[IgnoredVulns]]
+# id = "GHSA-xxxx-xxxx-xxxx"
+# ignoreUntil = 2026-12-31
+# reason = "Not exploitable: we never call the affected function. Revisit on expiry."
